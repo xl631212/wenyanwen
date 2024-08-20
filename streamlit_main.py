@@ -143,8 +143,8 @@ def teacher_assistant():
 
 
 page_names_to_funcs = {
-    "介绍": intro,
     "学生文言文学习助手": wenyanwen_assistant,
+    "介绍": intro,
     "教师助手": teacher_assistant,
 }
 
