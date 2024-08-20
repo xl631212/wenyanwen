@@ -7,7 +7,7 @@ import tempfile
 from PyPDF2 import PdfReader
 from openai import OpenAI
 import ast 
-
+st.set_page_config(layout="wide")
 api_key = st.secrets["OPENAI_API_KEY"]
 
 def intro():
