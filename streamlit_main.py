@@ -77,7 +77,7 @@ def wenyanwen_assistant():
         
         query_embedding = model.encode([prompt])
 
-        k = 8
+        k = 7
         _, indices = index.search(query_embedding, k)
         
         retrieved_texts = [texts[idx] for idx in indices[0]]
@@ -124,9 +124,9 @@ def wenyanwen_assistant():
                 'content': f"相关资料:\n{context}\n\n提问: {prompt}\回答:"},
             ]
         response = client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="chatgpt-4o-latest",
             messages=messages,
-            max_tokens=3500,
+            max_tokens=8500,
             temperature=0.0,
         )
         
