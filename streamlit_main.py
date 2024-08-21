@@ -14,10 +14,6 @@ st.set_page_config(
     page_title="文言文助手",
     layout="wide",
     initial_sidebar_state="collapsed",  # 收起左边栏
-    theme={
-        "primaryColor": "#1A1A1D",  # 设置为黑色主题
-        "font": "sans serif"
-    }
 )
 
 api_key = st.secrets["OPENAI_API_KEY"]
