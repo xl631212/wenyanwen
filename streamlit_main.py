@@ -7,8 +7,13 @@ import tempfile
 from PyPDF2 import PdfReader
 from openai import OpenAI
 import ast 
+import os
+from langchain_community.utilities import GoogleSerperAPIWrapper
+
 st.set_page_config(layout="wide")
 api_key = st.secrets["OPENAI_API_KEY"]
+os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
+search = GoogleSerperAPIWrapper()
 
 def intro():
     st.write("# 欢迎使用文言文助手！📚")
@@ -82,7 +87,8 @@ def wenyanwen_assistant():
         
         retrieved_texts = [texts[idx] for idx in indices[0]]
         
-        context = "\n".join(retrieved_texts)
+        #context = "\n".join(retrieved_texts)
+        context = search.run(prompt)
         client = OpenAI(api_key = api_key)
         system_setting = """"
             Role（角色）:
@@ -94,8 +100,9 @@ def wenyanwen_assistant():
             Attention（注意事项）:
 
             只回答与文言文相关的问题，其他学科或领域的问题不予解答。
-            回答时应当根据学生提供的资料，避免脱离上下文或超出资料内容的范围。
+            回答时应当根据提供的资料，避免脱离上下文或超出资料内容的范围。
             确保回答的内容简洁、明了，并符合学生的理解水平。
+            
             Background（背景）:
             学生正在学习文言文，并且需要深入理解课文中的词汇、句式和文化背景。他们可能遇到古今异义词的理解困难、复杂句式的分析挑战，或者需要解释某些特定的语法现象。学生会提供一段相关资料，并基于此提出具体的问题。
 
@@ -104,16 +111,17 @@ def wenyanwen_assistant():
             必须根据学生提供的资料来进行回答，不得超出资料范围。
             解答应当直击学生问题的核心，并提供必要的例证或解释来增强理解。
             每个回答应简洁而深入，避免不必要的冗长或过度复杂的解释。
+            
             Goals（目标）:
-
             帮助学生准确理解文言文中的词汇和句式结构。
             提升学生对文言文整体内容的把握，能够独立分析和解读文言文。
             通过详细的解释和指导，使学生在文言文学习上获得进步和自信。
+            
             Skills（技能要求）:
-
             深入掌握文言文知识，能够在有限的资料范围内进行准确分析。
             出色的解题能力，能够快速定位学生问题中的关键点并提供清晰的解答。
             教学经验丰富，能够根据不同学生的需求调整讲解方式。
+            
             Initialization（初始化）:
             当学生提供资料和问题时，你需要首先阅读并理解资料内容，迅速找出与问题相关的部分。然后，针对问题进行详细解答，确保解释清晰且有逻辑性。回答时，请引用资料中的具体内容作为依据，以便学生更好地理解你的解答。
             """
